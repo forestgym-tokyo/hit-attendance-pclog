@@ -1,54 +1,394 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
 
-<title>株式会社ヒット 勤怠・PCログ突合システム</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
-<link rel="stylesheet" href="style.css">
+  <title>株式会社ヒット 勤怠・PCログ突合システム</title>
 
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 </head>
 
 <body>
 
-<header>
+  <div class="app-layout">
 
-<h1>株式会社ヒット</h1>
+    <aside class="sidebar">
 
-<p>勤怠・PCログ突合システム</p>
+      <div class="sidebar-brand">
+        <div class="company-name">
+          株式会社ヒット
+        </div>
 
-</header>
+        <div class="system-name">
+          勤怠・PCログ<br>
+          突合システム
+        </div>
+      </div>
 
-<main>
+      <nav class="sidebar-menu">
 
-<div class="menu">
+        <button
+          type="button"
+          class="nav-item active"
+          data-menu="home"
+        >
+          <span class="nav-icon">⌂</span>
+          <span>ホーム</span>
+        </button>
 
-<button>👥 社員名簿</button>
+        <button
+          type="button"
+          class="nav-item"
+          data-menu="employee"
+        >
+          <span class="nav-icon">👥</span>
+          <span>社員名簿</span>
+        </button>
 
-<button>🕒 勤怠CSV取込</button>
+        <button
+          type="button"
+          class="nav-item"
+          data-menu="attendance"
+        >
+          <span class="nav-icon">🕘</span>
+          <span>勤怠CSV取込</span>
+        </button>
 
-<button>💻 PCログ取込</button>
+        <button
+          type="button"
+          class="nav-item"
+          data-menu="pclog"
+        >
+          <span class="nav-icon">💻</span>
+          <span>PCログ取込</span>
+        </button>
 
-<button>🔄 突合実行</button>
+        <button
+          type="button"
+          class="nav-item"
+          data-menu="reconciliation"
+        >
+          <span class="nav-icon">⇄</span>
+          <span>突合実行</span>
+        </button>
 
-<button>📊 突合結果</button>
+        <button
+          type="button"
+          class="nav-item"
+          data-menu="results"
+        >
+          <span class="nav-icon">📊</span>
+          <span>突合結果</span>
+        </button>
 
-<button>📜 履歴</button>
+        <button
+          type="button"
+          class="nav-item"
+          data-menu="history"
+        >
+          <span class="nav-icon">📁</span>
+          <span>取込履歴</span>
+        </button>
 
-<button>⚙ 設定</button>
+        <button
+          type="button"
+          class="nav-item admin-menu"
+          data-menu="settings"
+        >
+          <span class="nav-icon">⚙</span>
+          <span>設定</span>
+        </button>
 
-</div>
+      </nav>
 
-</main>
+      <div class="sidebar-footer">
+        Version 1.0.0
+      </div>
 
-<footer>
+    </aside>
 
-Version 1.0
+    <div class="main-area">
 
-</footer>
+      <header class="topbar">
 
-<script src="app.js"></script>
+        <div>
+          <h1 class="page-title">
+            ホーム
+          </h1>
+
+          <p class="page-subtitle">
+            勤怠データとPCログの取込・突合状況を確認します。
+          </p>
+        </div>
+
+        <div class="topbar-right">
+
+          <div
+            id="environmentBadge"
+            class="environment-badge"
+          >
+            開発環境
+          </div>
+
+          <div class="user-panel">
+            <div class="user-label">
+              ログインユーザー
+            </div>
+
+            <div
+              id="userName"
+              class="user-name"
+            >
+              未ログイン
+            </div>
+          </div>
+
+        </div>
+
+      </header>
+
+      <main class="content">
+
+        <div
+          id="message"
+          class="message"
+          hidden
+        ></div>
+
+        <section class="status-grid">
+
+          <article class="status-card">
+            <div class="status-label">
+              API接続
+            </div>
+
+            <div
+              id="apiStatus"
+              class="status-value status-checking"
+            >
+              確認中
+            </div>
+
+            <div
+              id="apiDetail"
+              class="status-detail"
+            >
+              GASとの接続を確認しています。
+            </div>
+          </article>
+
+          <article class="status-card">
+            <div class="status-label">
+              対象社員数
+            </div>
+
+            <div
+              id="employeeCount"
+              class="status-value"
+            >
+              ―
+            </div>
+
+            <div class="status-detail">
+              社員名簿に登録されている人数
+            </div>
+          </article>
+
+          <article class="status-card">
+            <div class="status-label">
+              最終データ取込
+            </div>
+
+            <div
+              id="lastImport"
+              class="status-value"
+            >
+              未実施
+            </div>
+
+            <div
+              id="lastImportDetail"
+              class="status-detail"
+            >
+              取込履歴はありません。
+            </div>
+          </article>
+
+          <article class="status-card">
+            <div class="status-label">
+              最終突合処理
+            </div>
+
+            <div
+              id="lastReconciliation"
+              class="status-value"
+            >
+              未実施
+            </div>
+
+            <div
+              id="lastReconciliationDetail"
+              class="status-detail"
+            >
+              突合履歴はありません。
+            </div>
+          </article>
+
+        </section>
+
+        <section class="section">
+
+          <div class="section-header">
+            <div>
+              <h2>メニュー</h2>
+
+              <p>
+                実行する処理を選択してください。
+              </p>
+            </div>
+          </div>
+
+          <div class="menu-grid">
+
+            <button
+              type="button"
+              class="menu-card"
+              data-menu="employee"
+            >
+              <span class="menu-card-icon">👥</span>
+
+              <span class="menu-card-body">
+                <span class="menu-card-title">
+                  社員名簿
+                </span>
+
+                <span class="menu-card-description">
+                  社員名簿の取込、更新履歴、在籍状況を確認します。
+                </span>
+              </span>
+
+              <span class="menu-card-arrow">›</span>
+            </button>
+
+            <button
+              type="button"
+              class="menu-card"
+              data-menu="attendance"
+            >
+              <span class="menu-card-icon">🕘</span>
+
+              <span class="menu-card-body">
+                <span class="menu-card-title">
+                  勤怠CSV取込
+                </span>
+
+                <span class="menu-card-description">
+                  勤怠管理システムから出力したCSVを取り込みます。
+                </span>
+              </span>
+
+              <span class="menu-card-arrow">›</span>
+            </button>
+
+            <button
+              type="button"
+              class="menu-card"
+              data-menu="pclog"
+            >
+              <span class="menu-card-icon">💻</span>
+
+              <span class="menu-card-body">
+                <span class="menu-card-title">
+                  PCログ取込
+                </span>
+
+                <span class="menu-card-description">
+                  PCの起動・シャットダウンログを取り込みます。
+                </span>
+              </span>
+
+              <span class="menu-card-arrow">›</span>
+            </button>
+
+            <button
+              type="button"
+              class="menu-card"
+              data-menu="reconciliation"
+            >
+              <span class="menu-card-icon">⇄</span>
+
+              <span class="menu-card-body">
+                <span class="menu-card-title">
+                  突合実行
+                </span>
+
+                <span class="menu-card-description">
+                  勤怠データとPCログを照合し、差異を抽出します。
+                </span>
+              </span>
+
+              <span class="menu-card-arrow">›</span>
+            </button>
+
+            <button
+              type="button"
+              class="menu-card"
+              data-menu="results"
+            >
+              <span class="menu-card-icon">📊</span>
+
+              <span class="menu-card-body">
+                <span class="menu-card-title">
+                  突合結果
+                </span>
+
+                <span class="menu-card-description">
+                  正常、要確認、エラーの結果を確認します。
+                </span>
+              </span>
+
+              <span class="menu-card-arrow">›</span>
+            </button>
+
+            <button
+              type="button"
+              class="menu-card"
+              data-menu="history"
+            >
+              <span class="menu-card-icon">📁</span>
+
+              <span class="menu-card-body">
+                <span class="menu-card-title">
+                  取込履歴
+                </span>
+
+                <span class="menu-card-description">
+                  ファイル名、取込者、日時、SHA-256を確認します。
+                </span>
+              </span>
+
+              <span class="menu-card-arrow">›</span>
+            </button>
+
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
 
 </body>
 </html>
