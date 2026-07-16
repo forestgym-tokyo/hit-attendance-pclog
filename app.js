@@ -25,7 +25,7 @@ async function initializeApp() {
 
 
 /**
- * メニューイベント
+ * メニューイベント登録
  */
 function registerMenuEvents() {
   const menuElements =
@@ -46,10 +46,16 @@ function registerMenuEvents() {
 
 
 /**
- * メニュー押下
+ * メニュー押下処理
  */
 function handleMenuClick(menuId) {
+  if (!menuId) {
+    return;
+  }
+
   if (menuId === 'home') {
+    clearMessage();
+    setActiveMenu('home');
     return;
   }
 
@@ -59,6 +65,7 @@ function handleMenuClick(menuId) {
     pclog: 'PCログ取込',
     reconciliation: '突合実行',
     results: '突合結果',
+    stage: 'ステージ管理',
     history: '取込履歴',
     settings: '設定'
   };
@@ -67,11 +74,34 @@ function handleMenuClick(menuId) {
     menuNames[menuId] ||
     menuId;
 
+  setActiveMenu(menuId);
+
   showMessage(
     menuName +
       '画面は次の工程で実装します。',
     'info'
   );
+}
+
+
+/**
+ * 選択中メニュー表示
+ */
+function setActiveMenu(menuId) {
+  const navItems =
+    document.querySelectorAll(
+      '.sidebar .nav-item[data-menu]'
+    );
+
+  navItems.forEach(function(item) {
+    const isActive =
+      item.dataset.menu === menuId;
+
+    item.classList.toggle(
+      'active',
+      isActive
+    );
+  });
 }
 
 
@@ -84,6 +114,13 @@ async function checkApiConnection() {
 
   const detailElement =
     document.getElementById('apiDetail');
+
+  if (!statusElement || !detailElement) {
+    console.error(
+      'API接続状態の表示要素が見つかりません。'
+    );
+    return;
+  }
 
   try {
     const requestUrl =
@@ -123,11 +160,19 @@ async function checkApiConnection() {
     statusElement.className =
       'status-value status-ok';
 
+    const apiVersion =
+      result.data.apiVersion ||
+      '不明';
+
+    const serverTime =
+      result.data.serverTime ||
+      '時刻不明';
+
     detailElement.textContent =
       'Version ' +
-      result.data.apiVersion +
+      apiVersion +
       ' ／ ' +
-      result.data.serverTime;
+      serverTime;
 
   } catch (error) {
     console.error(
@@ -159,6 +204,13 @@ function showMessage(message, type) {
   const messageElement =
     document.getElementById('message');
 
+  if (!messageElement) {
+    console.error(
+      'メッセージ表示要素が見つかりません。'
+    );
+    return;
+  }
+
   messageElement.textContent =
     message;
 
@@ -173,4 +225,26 @@ function showMessage(message, type) {
     top: 0,
     behavior: 'smooth'
   });
+}
+
+
+/**
+ * メッセージ非表示
+ */
+function clearMessage() {
+  const messageElement =
+    document.getElementById('message');
+
+  if (!messageElement) {
+    return;
+  }
+
+  messageElement.textContent =
+    '';
+
+  messageElement.className =
+    'message';
+
+  messageElement.hidden =
+    true;
 }
