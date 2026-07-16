@@ -71,6 +71,7 @@ button {
 }
 
 .sidebar-brand {
+  flex: 0 0 auto;
   padding: 28px 24px 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.13);
 }
@@ -90,7 +91,23 @@ button {
 
 .sidebar-menu {
   flex: 1;
+  min-height: 0;
   padding: 18px 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+}
+
+.sidebar-menu::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .nav-item {
@@ -125,6 +142,7 @@ button {
 }
 
 .sidebar-footer {
+  flex: 0 0 auto;
   padding: 18px 24px;
   font-size: 11px;
   opacity: 0.58;
@@ -388,8 +406,15 @@ button {
   .sidebar-menu {
     display: flex;
     gap: 6px;
+    min-height: auto;
     overflow-x: auto;
+    overflow-y: hidden;
     padding: 10px;
+  }
+
+  .sidebar-menu::-webkit-scrollbar {
+    width: auto;
+    height: 5px;
   }
 
   .nav-item {
