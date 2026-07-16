@@ -92,6 +92,15 @@
         <button
           type="button"
           class="nav-item"
+          data-menu="stage"
+        >
+          <span class="nav-icon">✓</span>
+          <span>ステージ管理</span>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
           data-menu="history"
         >
           <span class="nav-icon">📁</span>
@@ -125,7 +134,7 @@
           </h1>
 
           <p class="page-subtitle">
-            勤怠データとPCログの取込・突合状況を確認します。
+            勤怠データとPCログの取込・突合・確認状況を確認します。
           </p>
         </div>
 
@@ -352,6 +361,26 @@
 
                 <span class="menu-card-description">
                   正常、要確認、エラーの結果を確認します。
+                </span>
+              </span>
+
+              <span class="menu-card-arrow">›</span>
+            </button>
+
+            <button
+              type="button"
+              class="menu-card"
+              data-menu="stage"
+            >
+              <span class="menu-card-icon">✓</span>
+
+              <span class="menu-card-body">
+                <span class="menu-card-title">
+                  ステージ管理
+                </span>
+
+                <span class="menu-card-description">
+                  本人入力、上席者承認、管理部確認などの進捗状況を確認します。
                 </span>
               </span>
 
